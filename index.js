@@ -5,7 +5,7 @@ const app = express();
 
 
 
-mongoose.connect("mongodb+srv://pravinpatekar:wb0enET0wmCesDqn@cluster0.ftnu4ge.mongodb.net/"
+mongoose.connect("mongodb+srv://pravinpatekar:wb0enET0wmCesDqn@cluster0.ftnu4ge.mongodb.net/Batch2"
 ).then(() => console.log("MongoDB is connected")).catch(() => console.log(error))
 
 app.use("/", route)
