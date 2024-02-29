@@ -10,8 +10,11 @@ const createUser = async function (req, res) {
     const userData = await userModel.create({
         firstName: "John",
         lastName: "Smith",
-        address: "Amritsar",
-        mobileNumber: 987654321
+        // address: "Amritsar",
+        mobileNumber: 987654321,
+        gender: "male",
+        email: "abc2@gmail.com",
+        isActive: false,
     })
     res.send({ message: "User created successfully", userData })
 }
@@ -26,3 +29,4 @@ module.exports = createUser
 
 
 
+//MVC module => model, view, controller

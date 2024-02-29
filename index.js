@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const route = require("./routes/route.js")
 const app = express();
 
+// mongoose => 
+// Database connectivity
+// Schema validation
 
 
 mongoose.connect("mongodb+srv://pravinpatekar:wb0enET0wmCesDqn@cluster0.ftnu4ge.mongodb.net/Batch2"
