@@ -8,8 +8,10 @@ const app = express();
 // Schema validation
 
 
+app.use(express.json());
+
 mongoose.connect("mongodb+srv://pravinpatekar:wb0enET0wmCesDqn@cluster0.ftnu4ge.mongodb.net/Batch2"
-).then(() => console.log("MongoDB is connected")).catch(() => console.log(error))
+).then(() => console.log("MongoDB is connected")).catch((error) => console.log(error))
 
 app.use("/", route)
 
@@ -17,3 +19,4 @@ const port = 4000
 app.listen(port, () => {
     console.log(`MongoDB is listening on port ${port}`)
 })
+

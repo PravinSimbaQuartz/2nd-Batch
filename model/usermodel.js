@@ -3,6 +3,11 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
+    title: {
+        type: mongoose.Schema.Types.String,
+        enum: ["Mr", "Mrs", "Miss"]
+    },
+
     firstName: {
         type: mongoose.Schema.Types.String,
         lowercase: true
@@ -20,16 +25,20 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     gender: {
-        type: mongoose.Schema.Types.String
+        type: mongoose.Schema.Types.String,
+        enum: ["male", "female", "other"]
     },
     mobileNumber: {
         type: mongoose.Schema.Types.Number,
         required: true,
     },
     isActive: {
-        type: mongoose.Schema.Types.Boolean
+        type: mongoose.Schema.Types.Boolean,
+        default: true,
     }
-})
+},
+    { timestamps: true }
+)
 
 
 module.exports = mongoose.model("user", userSchema)

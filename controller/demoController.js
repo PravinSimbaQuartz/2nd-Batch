@@ -7,14 +7,27 @@ const samppleFunction = function (req, res) {
 
 
 const createUser = async function (req, res) {
+    const { firstName,
+        lastName,
+        address,
+        mobileNumber,
+        gender,
+        email,
+        isActive,
+        title } = req.body
+
+    console.log(1111111, req.body)
+
     const userData = await userModel.create({
-        firstName: "John",
-        lastName: "Smith",
-        // address: "Amritsar",
-        mobileNumber: 987654321,
-        gender: "male",
-        email: "abc2@gmail.com",
-        isActive: false,
+        firstName,
+        lastName,
+        address,
+        mobileNumber,
+        gender,
+        email,
+        isActive,
+        title
+
     })
     res.send({ message: "User created successfully", userData })
 }
