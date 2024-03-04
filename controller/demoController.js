@@ -7,7 +7,8 @@ const samppleFunction = function (req, res) {
 
 
 const createUser = async function (req, res) {
-    const { firstName,
+    const {
+        firstName,
         lastName,
         address,
         mobileNumber,
@@ -16,7 +17,13 @@ const createUser = async function (req, res) {
         isActive,
         title } = req.body
 
-    console.log(1111111, req.body)
+    if (!email) {
+        return res.send({ message: "Email is required" })
+    }
+    if (!mobileNumber) {
+        return res.send({ message: "mobileNumber is required" })
+    }
+
 
     const userData = await userModel.create({
         firstName,
@@ -27,13 +34,26 @@ const createUser = async function (req, res) {
         email,
         isActive,
         title
-
     })
     res.send({ message: "User created successfully", userData })
 }
 
-module.exports = samppleFunction
-module.exports = createUser
+
+const getUser = async (req, res) => {
+
+    const userData = await userModel.find()
+    const count = await userModel.countDocuments()
+    res.send({ message: "User fetch successfully", count, userData })
+}
+
+
+
+
+// module.exports = samppleFunction
+// module.exports = createUser
+// module.exports = getUser
+
+module.exports = { samppleFunction, createUser, getUser }
 
 
 // nodejs => async
