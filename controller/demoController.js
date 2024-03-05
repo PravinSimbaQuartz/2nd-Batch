@@ -40,11 +40,23 @@ const createUser = async function (req, res) {
 
 
 const getUser = async (req, res) => {
-
     const userData = await userModel.find()
     const count = await userModel.countDocuments()
     res.send({ message: "User fetch successfully", count, userData })
 }
+
+
+const getSingleUser = async (req, res) => {
+    const id = req.params.Id
+
+    console.log(3333333, id)
+
+    // const userData = await userModel.findOne({ email: "abc@gmail.com" })
+    // const userData = await userModel.findOne({ _id: "65e570a4150a086d6c0d21fa" })
+    const userData = await userModel.findById({ _id: id })
+    res.send({ message: "User fetch successfully", userData })
+}
+
 
 
 
@@ -53,7 +65,7 @@ const getUser = async (req, res) => {
 // module.exports = createUser
 // module.exports = getUser
 
-module.exports = { samppleFunction, createUser, getUser }
+module.exports = { samppleFunction, createUser, getUser, getSingleUser }
 
 
 // nodejs => async
@@ -63,3 +75,10 @@ module.exports = { samppleFunction, createUser, getUser }
 
 
 //MVC module => model, view, controller
+
+
+//_id= 0-9, a-f, 24 characters
+
+
+// req.query
+// req.params
