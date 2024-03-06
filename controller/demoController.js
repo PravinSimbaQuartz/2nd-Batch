@@ -1,3 +1,4 @@
+const usermodel = require("../model/usermodel")
 const userModel = require("../model/usermodel")
 
 
@@ -24,6 +25,11 @@ const createUser = async function (req, res) {
         return res.send({ message: "mobileNumber is required" })
     }
 
+    const checkEmail = await userModel.findOne({ email: email })
+    if (checkEmail) {
+        return res.send({ message: "Email already use please try another email" })
+    }
+
 
     const userData = await userModel.create({
         firstName,
@@ -47,15 +53,67 @@ const getUser = async (req, res) => {
 
 
 const getSingleUser = async (req, res) => {
-    const id = req.params.Id
+    const id = req.params.id
 
     console.log(3333333, id)
-
     // const userData = await userModel.findOne({ email: "abc@gmail.com" })
     // const userData = await userModel.findOne({ _id: "65e570a4150a086d6c0d21fa" })
     const userData = await userModel.findById({ _id: id })
     res.send({ message: "User fetch successfully", userData })
 }
+
+// 1. update ? 
+// 2. which things to update ?
+const updateUser = async (req, res) => {
+    const id = req.params.id
+    const { firstName,
+        lastName,
+        address,
+        mobileNumber,
+        gender,
+        email,
+        isActive,
+        title
+    } = req.body
+
+    // const updatedData = await userModel.findOneAndUpdate(
+    //     // { _id: id }, // update ?
+    //     { email: "simar@gmail.com" },
+    //     {
+    //         firstName,
+    //         lastName,
+    //         address,
+    //         mobileNumber,
+    //         gender,
+    //         email,
+    //         isActive,
+    //         title
+    //     },// which things to update ?
+    //     { new: true }// to show updated document
+    // )
+
+    const updatedData = await userModel.findByIdAndUpdate(
+        { _id: id },
+        {
+            firstName,
+            lastName,
+            address,
+            mobileNumber,
+            gender,
+            email,
+            isActive,
+            title
+        },
+        { new: true }
+    )
+
+
+    res.send({ message: "User update successfully", updatedData })
+
+}
+
+
+
 
 
 
@@ -65,7 +123,7 @@ const getSingleUser = async (req, res) => {
 // module.exports = createUser
 // module.exports = getUser
 
-module.exports = { samppleFunction, createUser, getUser, getSingleUser }
+module.exports = { samppleFunction, createUser, getUser, getSingleUser, updateUser }
 
 
 // nodejs => async
