@@ -1,4 +1,3 @@
-const usermodel = require("../model/usermodel")
 const userModel = require("../model/usermodel")
 
 
@@ -113,6 +112,19 @@ const updateUser = async (req, res) => {
 }
 
 
+const deleteUser = async (req, res) => {
+    const id = req.params.id
+
+    const deletedUser = await userModel.findOneAndDelete({ email: "simar12345@gmail.com" })
+    // const deletedUser = await userModel.findByIdAndDelete({ _id: id })
+
+    res.send({ message: "User deleted successfully", deletedUser })
+}
+
+
+
+
+
 
 
 
@@ -123,7 +135,7 @@ const updateUser = async (req, res) => {
 // module.exports = createUser
 // module.exports = getUser
 
-module.exports = { samppleFunction, createUser, getUser, getSingleUser, updateUser }
+module.exports = { samppleFunction, createUser, getUser, getSingleUser, updateUser, deleteUser }
 
 
 // nodejs => async
@@ -140,3 +152,12 @@ module.exports = { samppleFunction, createUser, getUser, getSingleUser, updateUs
 
 // req.query
 // req.params
+
+
+
+
+// book
+// bookName, description, category, subcategory, summary, title, authorName, rating,
+
+// mongoDb Queries =>
+// create, find, findOne, findById, findOneAndUpdate, findByIdAndUpdate, findByIdAndDelete, findOneAndDelete
