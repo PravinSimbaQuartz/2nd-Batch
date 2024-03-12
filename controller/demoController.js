@@ -45,8 +45,10 @@ const createUser = async function (req, res) {
 
 
 const getUser = async (req, res) => {
-    const userData = await userModel.find()
-    const count = await userModel.countDocuments()
+
+    // const abc = req.query.isActive
+    const userData = await userModel.find({ isActive: req.query.isActive })
+    const count = await userModel.countDocuments({ isActive: req.query.isActive })
     res.send({ message: "User fetch successfully", count, userData })
 }
 
@@ -161,3 +163,11 @@ module.exports = { samppleFunction, createUser, getUser, getSingleUser, updateUs
 
 // mongoDb Queries =>
 // create, find, findOne, findById, findOneAndUpdate, findByIdAndUpdate, findByIdAndDelete, findOneAndDelete
+
+
+
+//req.params => fetch data by id => single documents 
+//useCase =
+
+//req.query => filter the data => multiple documents / 0
+//useCase = 
