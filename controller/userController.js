@@ -126,13 +126,6 @@ const deleteUser = async (req, res) => {
 
 
 
-
-
-
-
-
-
-
 // module.exports = samppleFunction
 // module.exports = createUser
 // module.exports = getUser
