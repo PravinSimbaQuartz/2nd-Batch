@@ -20,8 +20,9 @@ const bookSchema = new mongoose.Schema(
         }],
 
 
-        author: {
-            type: mongoose.Schema.Types.String,
+        authorId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "user"
         },
 
         bookImages: [{
