@@ -4,7 +4,7 @@ const router = express.Router();
 // const createUser = require("../controller/demoController")
 // const getUser = require("../controller/demoController")
 const { samppleFunction, createUser, getUser, getSingleUser, updateUser, deleteUser } = require("../controller/userController");
-const { createBook, getAllBooks, getSingleBook } = require("../controller/bookController")
+const { createBook, getAllBooks, getSingleBook, updateBook, deleteBook } = require("../controller/bookController")
 // router.get("/good", samppleFunction)
 
 
@@ -21,6 +21,8 @@ router.delete("/user/:id", deleteUser)
 router.post("/book", createBook)
 router.get("/book", getAllBooks)
 router.get("/book/:id", getSingleBook)
+router.put("/book/:id", updateBook)
+router.delete("/book/:id", deleteBook)
 
 
 module.exports = router
