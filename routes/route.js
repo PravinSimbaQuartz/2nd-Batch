@@ -5,8 +5,7 @@ const router = express.Router();
 // const getUser = require("../controller/demoController")
 const { samppleFunction, createUser, getUser, getSingleUser, updateUser, deleteUser } = require("../controller/userController");
 const { createBook, getAllBooks, getSingleBook, updateBook, deleteBook } = require("../controller/bookController")
-// router.get("/good", samppleFunction)
-
+const { createReview, getBookReview } = require("../controller/reviewController")
 
 
 // user API's
@@ -23,6 +22,10 @@ router.get("/book", getAllBooks)
 router.get("/book/:id", getSingleBook)
 router.put("/book/:id", updateBook)
 router.delete("/book/:id", deleteBook)
+
+// Review API's
+router.post("/review", createReview)
+router.get("/review/:bookId", getBookReview)
 
 
 module.exports = router
