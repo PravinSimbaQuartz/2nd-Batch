@@ -3,16 +3,30 @@ const userModel = require("../model/usermodel")
 
 
 const createBook = async (req, res) => {
-    const { title, description, category, subCategory, author, bookImages, authorId } = req.body
-
-    const createdBook = await bookModel.create({ title, description, category, subCategory, author, bookImages, authorId })
-    res.send({ message: "Book created successfully", createdBook })
+    try {
+        const { title, description, category, subCategory, author, bookImages, authorId } = req.body
+        const createdBook = await bookModel.create({ title, description, category, subCategory, author, bookImages, authorId })
+        res.status(201).send({ message: "Book created successfully", createdBook })
+    } catch (error) {
+        res.status(500).send({ error: error.message })
+        // res.status(500).send({ error: error.message })
+    }
 }
 
+// try and catch block
+//try => if any error happned in try block then it will not excute the next line it will jump
+//       to catch block
+
+//catch => catch block will  print whatever error happened on try block
+
 const getAllBooks = async (req, res) => {
-    const data = await bookModel.find()
-    const count = await bookModel.countDocuments()
-    res.send({ message: "All books fetch successfully", count, data })
+    try {
+        const data = await bookModel.find()
+        const count = await bookModel.countDocuments()
+        res.status(200).send({ message: "All books fetch successfully", count, data })
+    } catch (error) {
+        res.status(500).send({ error: error.message })
+    }
 }
 
 const getSingleBook = async (req, res) => {
