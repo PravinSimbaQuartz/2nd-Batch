@@ -3,7 +3,7 @@ const router = express.Router();
 // const samppleFunction = require("../controller/demoController");
 // const createUser = require("../controller/demoController")
 // const getUser = require("../controller/demoController")
-const { samppleFunction, createUser, getUser, getSingleUser, updateUser, deleteUser } = require("../controller/userController");
+const { samppleFunction, createUser, loginUser, getUser, getSingleUser, updateUser, deleteUser } = require("../controller/userController");
 const { createBook, getAllBooks, getSingleBook, updateBook, deleteBook } = require("../controller/bookController")
 const { createReview, getBookReview } = require("../controller/reviewController")
 
@@ -14,6 +14,7 @@ router.get("/user", getUser)
 router.get("/user/:id", getSingleUser)
 router.put("/user/:id", updateUser)
 router.delete("/user/:id", deleteUser)
+router.post("/login", loginUser)
 
 
 // Book API's

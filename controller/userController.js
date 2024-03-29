@@ -1,5 +1,6 @@
 const userModel = require("../model/usermodel")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 
 const samppleFunction = function (req, res) {
@@ -48,6 +49,40 @@ const createUser = async function (req, res) {
     })
     res.send({ message: "User created successfully", userData })
 }
+
+const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body
+
+        if (!email || !password) {
+            return res.status(400).send({ message: "Email and password are required" })
+        }
+
+        const checkEmail = await userModel.findOne({ email: email })
+        if (!checkEmail) {
+            return res.status(404).send({ message: "Email not found/registered" })
+        }
+
+        const ismatchPassword = await bcrypt.compare(password, checkEmail?.password)
+        if (!ismatchPassword) {
+            return res.status(400).send({ message: "wrong password" })
+        }
+
+        // 1. payload, 2. Secrete key, 3. time validity
+        const token = jwt.sign({ name: checkEmail.firstName, email: checkEmail.email },
+            "Secrete",
+            { expiresIn: "1h" })
+
+        res.status(200).send({ message: "login successful", token })
+    } catch (error) {
+        res.status(500).send({ message: error.message })
+    }
+
+
+}
+
+
+
 
 
 const getUser = async (req, res) => {
@@ -145,7 +180,7 @@ const deleteUser = async (req, res) => {
 // module.exports = createUser
 // module.exports = getUser
 
-module.exports = { samppleFunction, createUser, getUser, getSingleUser, updateUser, deleteUser }
+module.exports = { samppleFunction, createUser, loginUser, getUser, getSingleUser, updateUser, deleteUser }
 
 
 // nodejs => async
