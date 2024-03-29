@@ -1,4 +1,5 @@
 const userModel = require("../model/usermodel")
+const bcrypt = require("bcrypt")
 
 
 const samppleFunction = function (req, res) {
@@ -15,7 +16,11 @@ const createUser = async function (req, res) {
         gender,
         email,
         isActive,
+        password,
         title } = req.body
+
+    const generateSalt = await bcrypt.genSalt(10)  // it will take ramdom 10 characters and generate a string
+    const hashPassword = await bcrypt.hash(password, generateSalt) //it will mix password and generated string
 
     if (!email) {
         return res.status(400).send({ message: "Email is required" })
@@ -38,7 +43,8 @@ const createUser = async function (req, res) {
         gender,
         email,
         isActive,
-        title
+        title,
+        password: hashPassword
     })
     res.send({ message: "User created successfully", userData })
 }
