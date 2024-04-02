@@ -69,9 +69,9 @@ const loginUser = async (req, res) => {
         }
 
         // 1. payload, 2. Secrete key, 3. time validity
-        const token = jwt.sign({ name: checkEmail.firstName, email: checkEmail.email },
+        const token = jwt.sign({ name: checkEmail.firstName, email: checkEmail.email, id: checkEmail._id },
             "Secrete",
-            { expiresIn: "1h" })
+            { expiresIn: "1m" })
 
         res.status(200).send({ message: "login successful", token })
     } catch (error) {

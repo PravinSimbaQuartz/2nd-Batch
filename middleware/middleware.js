@@ -3,37 +3,33 @@
 
 //next in middleware =>
 //pass the control to next middleware or next controller
-
+const jwt = require("jsonwebtoken")
 const authentication = async (req, res, next) => {
+
+
+    const tokenFromUser = req.headers["token"] // token, x-api-key ,authorization
+    if (!tokenFromUser) {
+        return res.status(401).send({ message: "Please login first" })
+    }
+
+    jwt.verify(tokenFromUser, "Secrete", function (error, decoded) {
+        if (error) {
+            return res.status(400).send({
+                message: error.message
+            })
+        } else {
+            verifiedToken = decoded
+        }
+    })
 
     console.log(1111, "middleware is working")
     next()
 
 
 }
-const authentication1 = async (req, res, next) => {
-
-    console.log(2222, "middleware is working")
-    next()
 
 
-}
-const authentication2 = async (req, res, next) => {
-
-    console.log(3333, "middleware is working")
-    next()
-
-
-}
-const authentication3 = async (req, res, next) => {
-
-    console.log(4444, "middleware is working")
-    next()
-
-
-}
-
-module.exports = { authentication, authentication1, authentication2, authentication3 }
+module.exports = { authentication }
 
 
 

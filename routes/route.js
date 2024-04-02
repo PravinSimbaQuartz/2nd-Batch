@@ -6,13 +6,13 @@ const router = express.Router();
 const { samppleFunction, createUser, loginUser, getUser, getSingleUser, updateUser, deleteUser } = require("../controller/userController");
 const { createBook, getAllBooks, getSingleBook, updateBook, deleteBook } = require("../controller/bookController")
 const { createReview, getBookReview } = require("../controller/reviewController")
-const { authentication, authentication1, authentication2, authentication3 } = require("../middleware/middleware")
+const { authentication, } = require("../middleware/middleware")
 // user API's
 router.post("/user", createUser)
-router.get("/user", authentication, authentication1, authentication2, authentication3, getUser)
-router.get("/user/:id", getSingleUser)
-router.put("/user/:id", updateUser)
-router.delete("/user/:id", deleteUser)
+router.get("/user", authentication, getUser)
+router.get("/user/:id", authentication, getSingleUser)
+router.put("/user/:id", authentication, updateUser)
+router.delete("/user/:id", authentication, deleteUser)
 router.post("/login", loginUser)
 
 
