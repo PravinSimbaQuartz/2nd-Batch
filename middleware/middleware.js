@@ -29,7 +29,26 @@ const authentication = async (req, res, next) => {
 }
 
 
-module.exports = { authentication }
+
+const authorization = async (req, res, next) => {
+    try {
+
+        const userId = verifiedToken.id
+        const { id } = req.params
+
+        if (userId !== id) {
+            return res.status(403).send({ message: "You are not authorized" })
+        }
+
+
+        next();
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+}
+
+
+module.exports = { authentication, authorization }
 
 
 
