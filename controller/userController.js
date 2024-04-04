@@ -83,13 +83,47 @@ const loginUser = async (req, res) => {
 
 
 
-const getUser = async (req, res) => {
+// const getUser = async (req, res) => {
 
-    // const abc = req.query.isActive
-    const userData = await userModel.find({ isActive: req.query.isActive })
-    const count = await userModel.countDocuments({ isActive: req.query.isActive })
-    res.send({ message: "User fetch successfully", count, userData })
+//     // const abc = req.query.isActive
+//     const userData = await userModel.find({ isActive: req.query.isActive })
+//     const count = await userModel.countDocuments({ isActive: req.query.isActive })
+//     res.send({ message: "User fetch successfully", count, userData })
+// }
+
+
+
+
+const getUser = async (req, res) => {
+    const { isActive, gender } = req.query
+    let searchCriteria = {}
+    // if (isActive) {
+    //     searchCriteria.isActive = searchCriteria.isActive === "true" ? false : true
+    // }
+
+    if (isActive === "true") {
+        searchCriteria.isActive = true
+    } else if (isActive === "false") {
+        searchCriteria.isActive = false
+    }
+
+    if (gender) {
+        searchCriteria["$and"] = [{ gender: gender }]
+    }
+
+
+    const userData = await userModel.aggregate([
+        { $match: searchCriteria },
+        {
+            $sort: {
+                createdAt: -1
+            }
+        },
+    ])
+    res.send({ message: "User fetch successfully", userData })
 }
+
+
 
 
 const getSingleUser = async (req, res) => {

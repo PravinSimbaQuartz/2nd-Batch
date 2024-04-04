@@ -9,7 +9,7 @@ const { createReview, getBookReview } = require("../controller/reviewController"
 const { authentication, authorization } = require("../middleware/middleware")
 // user API's
 router.post("/user", createUser)
-router.get("/user", authentication, getUser)
+router.get("/user", getUser)
 router.get("/user/:id", authentication, getSingleUser)
 router.put("/user/:id", authentication, authorization, updateUser)
 router.delete("/user/:id", authentication, authorization, deleteUser)
