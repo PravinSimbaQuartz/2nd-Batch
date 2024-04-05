@@ -95,32 +95,84 @@ const loginUser = async (req, res) => {
 
 
 const getUser = async (req, res) => {
-    const { isActive, gender } = req.query
-    let searchCriteria = {}
-    // if (isActive) {
-    //     searchCriteria.isActive = searchCriteria.isActive === "true" ? false : true
-    // }
+    try {
+        const { isActive, gender, keyword } = req.query
+        let searchCriteria = {}
+        // if (isActive) {
+        //     searchCriteria.isActive = searchCriteria.isActive === "true" ? false : true
+        // }
 
-    if (isActive === "true") {
-        searchCriteria.isActive = true
-    } else if (isActive === "false") {
-        searchCriteria.isActive = false
+        if (isActive === "true") {
+            searchCriteria.isActive = true
+        } else if (isActive === "false") {
+            searchCriteria.isActive = false
+        }
+
+        if (gender) {
+            searchCriteria["$and"] = [{ gender: gender }]
+        }
+
+        if (keyword) {
+            searchCriteria["$or"] = [
+                { firstName: { $regex: `${keyword.trim()}`, $options: "i" } },
+                { lastName: { $regex: `${keyword.trim()}`, $options: "i" } },
+                { email: { $regex: `${keyword.trim()}`, $options: "i" } }
+            ]
+        }
+
+
+        const userData = await userModel.aggregate([
+            { $match: searchCriteria },
+            {
+                $sort: {
+                    createdAt: -1
+                }
+            },
+            {
+                $lookup: {
+                    from: "books",
+                    localField: "_id",
+                    foreignField: "authorId",
+                    as: "bookDetails"
+
+                }
+            },
+            {
+                $unwind: {
+                    path: "$bookDetails",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+
+            {
+                $lookup: {
+                    from: "reviews",
+                    localField: "bookDetails._id",
+                    foreignField: "bookId",
+                    as: "reviewDetails"
+                }
+
+            },
+            {
+                $unwind: {
+                    path: "$reviewDetails",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $project: {
+                    password: 0,
+                    bookDetails: 0
+                    // firstName: 1
+                }
+            },
+
+        ])
+        res.send({ message: "User fetch successfully", userData })
+    } catch (error) {
+        res.status(500).send({ message: error.message })
     }
 
-    if (gender) {
-        searchCriteria["$and"] = [{ gender: gender }]
-    }
-
-
-    const userData = await userModel.aggregate([
-        { $match: searchCriteria },
-        {
-            $sort: {
-                createdAt: -1
-            }
-        },
-    ])
-    res.send({ message: "User fetch successfully", userData })
 }
 
 
