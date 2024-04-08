@@ -102,6 +102,11 @@ const getUser = async (req, res) => {
         //     searchCriteria.isActive = searchCriteria.isActive === "true" ? false : true
         // }
 
+        const startIndex = parseInt(req.query.startIndex || 0)
+        const viewSize = parseInt(req.query.viewSize || 10)
+
+
+
         if (isActive === "true") {
             searchCriteria.isActive = true
         } else if (isActive === "false") {
@@ -167,8 +172,28 @@ const getUser = async (req, res) => {
                 }
             },
 
+            {
+                $facet: {
+                    data: [
+                        {
+                            $skip: startIndex
+                        },
+                        {
+                            $limit: viewSize
+                        }
+                    ],
+                    count: [
+                        { $count: "total" }
+                    ]
+                }
+            },
         ])
-        res.send({ message: "User fetch successfully", userData })
+        // res.send({ message: "User fetch successfully",count: userData })
+        res.send({
+            message: "User fetch successfully",
+            count: userData[0]?.count[0]?.total,
+            data: userData[0]?.data
+        })
     } catch (error) {
         res.status(500).send({ message: error.message })
     }

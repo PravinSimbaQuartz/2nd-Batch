@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
     { timestamps: true }
 )
 
-
+// model => model is rapper around schema to allow the databse to perform CRUD operations
 module.exports = mongoose.model("user", userSchema)
 
 
@@ -64,3 +64,19 @@ module.exports = mongoose.model("user", userSchema)
 // undefined => intialise but doesnt get its value => undefined
 // null => absence of value => Object
 
+
+
+
+// SQL  => Structre Query Language
+// Relational database
+// Postgres, MySQL
+// Schema Fix
+//Vertically Scalable	
+
+
+
+//No SQL
+// no relational database
+// MonGoDB
+// Dynamic Schema
+//Horizontally scalable
